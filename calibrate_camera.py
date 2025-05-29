@@ -7,11 +7,6 @@ def visualize_reprojection(image, obj_points, img_points, rvec, tvec, K, dist_co
     img_points_proj, _ = cv2.projectPoints(obj_points, rvec, tvec, K, dist_coeffs)
     img_points_proj = img_points_proj.reshape(-1, 2)
 
-    # 2. Bild anzeigen
-    plt.figure(figsize=(12, 8))
-    plt.imshow(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
-    plt.title('Reprojektionsfehler-Visualisierung')
-
     # 3. Bildpunkte einzeichnen
     plt.scatter(img_points[:, 0], img_points[:, 1], c='r', label='Gemessene Bildpunkte')
     plt.scatter(img_points_proj[:, 0], img_points_proj[:, 1], c='g', marker='+', label='Reprojektierte Punkte')
@@ -46,23 +41,21 @@ def visualize_reprojection(image, obj_points, img_points, rvec, tvec, K, dist_co
     plt.tight_layout()
     plt.show()
 
-
-
-
 obj_points = np.array([
-    [0   , 0   , 0   ],
-    [7   , 57  , 0   ],
-    [0   , 30  , 0   ],
-    [72  , 0   , 0   ],
-    [30  , 20  , 0   ],
-    [71  , 73  , 0   ],
-    [61.5, 35  , 0   ],
-    [23  , 0   , -12.5],
-    [25  , 107 , -12.5],
-    [23  , 47.5, -95  ]
+    [0   , 0    , 0    ],
+    [0   , 30   , 0    ],
+    [7   , 87   , 0    ],
+    [30  , 20   , 0    ],
+    [72  , 0    , 0    ],
+    [35  , 61.5 , 0    ],
+    [71  , 73   , 0    ],
+    [-23 , 0    , -12.5],
+    [-25 , 107  , -12.5],
+    [-23 , 47.5 , -95  ]
 ], dtype=np.float32)
 
-obj_points = (obj_points + np.array([-30, -55.5, 0], dtype=np.float32)) *10
+# obj_points = (obj_points + np.array([-30, -55.5, 0], dtype=np.float32)) *10
+obj_points = (obj_points) *10
 
 img_points = np.array([
     [1.588E3, 1.942E3],
@@ -76,8 +69,6 @@ img_points = np.array([
     [1.133E3, 147.4  ],
     [480.0  , 1.275E3]
 ], dtype=np.float32)
-
-
 
 
 # Bildgröße 4K iPhone 12
