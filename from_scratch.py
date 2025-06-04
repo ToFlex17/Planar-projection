@@ -1,6 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
+import numpy as np
 
 # Beispiel-Datenframe mit x, y, z Punkten
 data = {
@@ -10,23 +11,7 @@ data = {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+kamera_pos = np.array([30, -198, 55.5]) 
 
 
 df = pd.DataFrame(data)
@@ -37,13 +22,20 @@ ax = fig.add_subplot(111, projection='3d')
 
 # Punkte aus dem DataFrame plotten
 ax.scatter(df['x'], df['z'], df['y'], c='red', marker='o')
-ax.scatter(-30, 0, -55.5, c='blue', marker='^', s=100, label='Hervorgehobener Punkt')
+ax.scatter(kamera_pos[0], kamera_pos[1], kamera_pos[2], c='blue', marker='^', s=100, label='Hervorgehobener Punkt')
+
+# Alle Punkte aus dem DataFrame und Geraden zum festen Punkt plotten
+for i, row in df.iterrows():
+    point = np.array([row['x'], row['z'], row['y']])
+    line = np.array([kamera_pos, point])
+    
+    # Gerade plotten
+    ax.plot(line[:,0], line[:,1], line[:,2], color='gray', linestyle='--')
 
 
 # Punkte nummerieren
 for i, row in df.iterrows():
     ax.text(row['x'], row['z'], row['y'], str(i), color='black', fontsize=10)
-
 
 # Achsen beschriften
 ax.set_xlabel('X-Achse')
